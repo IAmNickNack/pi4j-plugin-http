@@ -63,3 +63,7 @@ If required, OpenAPI specifications then are available locally at at http://loca
 Although OpenAPI specs are most often used to generate client code, the same specs can be used to build a compatible
 server implementation.
 
+## Examples
+
+Examples contained in the `examples` directory should be reasonably self-explanatory and runnable as-is. 
+At least within an IDE.
