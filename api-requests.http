@@ -1,0 +1,68 @@
+### Create a new digital output
+POST http://{{host}}/api/config/digitalinput
+Content-Type: application/json
+
+{
+  "id": "gpio-4",
+  "address": 4
+}
+
+### Create a new i2c device
+POST http://{{host}}/api/config/i2c
+Content-Type: application/json
+
+{
+  "id": "test-i2c",
+  "bus": 1,
+  "device": 32
+}
+
+### Remove the i2c device
+DELETE http://{{host}}/api/config/i2c/test-i2c
+
+### List all digital outputs
+GET http://{{host}}/api/config/digitaloutput
+
+### Retrieve a digital output config by ID
+GET http://{{host}}/api/config/digitaloutput/gpio-3
+
+### Retrieve a digital output value by ID
+GET http://{{host}}/api/digitaloutput/gpio-3
+
+### Set the state of a digital output
+PUT http://{{host}}/api/digitaloutput/gpio-4/1
+
+### Remove a digital output by ID
+DELETE http://{{host}}/api/config/i2c/mcp23008
+
+###
+GET http://{{host}}/api/digitalinput/gpio-4
+
+### Set value of mock input
+PUT http://{{host}}/api/digitalinput/gpio-4/1
+### Unsubscribe
+DELETE http://{{host}}/api/digitalinput/gpio-4/events
+
+
+
+###
+GET http://{{host}}/api/config/registry
+
+
+###
+GET http://{{host}}/api/config/spi/spi-bus-1
+
+###
+PUT http://{{host}}/api/pwm/pwm-channel-2/on
+
+### Set PWM frequency
+PUT http://{{host}}/api/pwm/pwm-channel-2/frequency/220
+
+### Send SPI
+POST http://{{host}}/api/spi/spi-bus-1
+Content-Type: application/json
+
+{
+  "bytes": "xtWdRA=="
+}
+

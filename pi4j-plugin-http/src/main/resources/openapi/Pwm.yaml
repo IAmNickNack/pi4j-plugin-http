@@ -1,0 +1,190 @@
+openapi: 3.1.0
+info:
+  title: PWM
+  description: PWM
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /api/pwm/{id}/{enabled}:
+    put:
+      summary: Set PWM Enabled State
+      description: Enable or disable a PWM pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+        - name: enabled
+          in: path
+          required: true
+          description: The enabled state to set (0 for disabled, 1 for enabled).
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/pwm/{id}/dutycycle/{dutycycle}:
+    put:
+      summary: Set PWM Duty Cycle
+      description: Set the duty cycle of a PWM pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+        - name: dutycycle
+          in: path
+          required: true
+          description: The duty cycle to set (0-100).
+          schema:
+            type: integer
+            example: 75
+      responses:
+        '200':
+          description: Successful response indicating the duty cycle was set.
+          content:
+            application/json:
+              schema:
+                type: integer
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/pwm/{id}/dutycycle:
+    get:
+      summary: Get PWM Duty Cycle
+      description: Get the duty cycle of a PWM pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response indicating containing the duty cycle.
+          content:
+            application/json:
+              schema:
+                type: integer
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+
+  /api/pwm/{id}/frequency/{frequency}:
+    put:
+      summary: Set PWM Frequency
+      description: Set the frequency of a PWM pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+        - name: frequency
+          in: path
+          required: true
+          description: The frequency to set.
+          schema:
+            type: integer
+            example: 440
+      responses:
+        '200':
+          description: Successful response indicating the frequency was set.
+          content:
+            application/json:
+              schema:
+                type: integer
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/pwm/{id}/frequency:
+    get:
+      summary: Get PWM Frequency
+      description: Get the frequency of a PWM pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response indicating containing the frequency.
+          content:
+            application/json:
+              schema:
+                type: integer
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/config/pwm:
+    get:
+      summary: List all PWM devices
+      description: Fetch all PWM device configurations.
+      responses:
+        '200':
+          description: Successful response with a list of all PWM devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PwmConfig"
+      tags:
+        - config
+
+  /api/config/pwm/{id}:
+    get:
+      summary: Get PWM device configuration
+      description: Fetch a PWM device configuration.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response with the PWM device configuration.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PwmConfig"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    delete:
+      summary: Delete PWM device
+      description: Delete a PWM device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    post:
+      summary: Create PWM device
+      description: Create a PWM device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PwmConfig"
+      responses:
+        '200':
+          description: Successful response indicating the PWM device was created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PwmConfig"
+      tags:
+        - config
+
+components:
+  schemas:
+    PwmConfig:
+      type: object
+
+tags:
+  - name: operation
+    description: Runtime operations
+  - name: config
+    description: Device configuration

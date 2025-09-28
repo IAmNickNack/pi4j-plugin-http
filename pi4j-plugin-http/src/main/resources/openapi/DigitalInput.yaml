@@ -1,0 +1,98 @@
+openapi: 3.1.0
+info:
+  title: Digital Input
+  description: Digital Input
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /api/digitalinput/{id}:
+    get:
+      summary: Get Digital Input State
+      description: Get the current state of a digital input pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response with the state of the digital output pin.
+          content:
+            application/json:
+              schema:
+                type: integer
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/config/digitalinput:
+    get:
+      summary: List all Digital Input devices
+      description: Fetch all Digital Input device configurations.
+      responses:
+        '200':
+          description: Successful response with a list of all Digital Input devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: "#/components/schemas/DigitalInputConfig"
+      tags:
+        - config
+
+  /api/config/digitalinput/{id}:
+    get:
+      summary: Get Digital Input device configuration
+      description: Fetch a Digital Input device configuration.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response with the Digital Input device configuration.
+          content:
+            application/json:
+              schema:
+                type: "#/components/schemas/DigitalInputConfig"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    delete:
+      summary: Delete Digital Input device
+      description: Delete a Digital Input device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    post:
+      summary: Create Digital Input device
+      description: Create a Digital Input device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "#/components/schemas/DigitalInputConfig"
+      responses:
+        '200':
+          description: Successful response indicating the Digital Input device was created.
+          content:
+            application/json:
+              schema:
+                type: "##/components/schemas/DigitalInputConfig"
+        '409':
+          $ref: "./components.yaml#/components/responses/409"
+      tags:
+        - config
+
+components:
+  schemas:
+    DigitalInputConfig:
+      type: object

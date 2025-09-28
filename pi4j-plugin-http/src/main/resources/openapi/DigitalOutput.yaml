@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: Digital Output
+  description: Digital Output
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /api/digitaloutput/{id}:
+    get:
+      summary: Get Digital Output State
+      description: Get the current state of a digital output pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response with the state of the digital output pin.
+          content:
+            application/json:
+              schema:
+                type: integer
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/digitaloutput/{id}/{state}:
+    put:
+      summary: Set Digital Output State
+      description: Set the state of a digital output pin.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+        - name: state
+          in: path
+          required: true
+          description: The state to set (0 for LOW, 1 for HIGH).
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/config/digitalinput:
+    get:
+      summary: List all Digital Input devices
+      description: Fetch all Digital Input device configurations.
+      responses:
+        '200':
+          description: Successful response with a list of all Digital Input devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: "#/components/schemas/DigitalOutputConfig"
+      tags:
+        - config
+
+  /api/config/digitalinput/{id}:
+    get:
+      summary: Get Digital Output device configuration
+      description: Fetch a Digital Output device configuration.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response with the Digital Output device configuration.
+          content:
+            application/json:
+              schema:
+                type: "#/components/schemas/DigitalOutputConfig"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    delete:
+      summary: Delete Digital Output device
+      description: Delete a Digital Output device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    post:
+      summary: Create Digital Output device
+      description: Create a Digital Output device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "#/components/schemas/DigitalOutputConfig"
+      responses:
+        '200':
+          description: Successful response indicating the Digital Output device was created.
+          content:
+            application/json:
+              schema:
+                type: "##/components/schemas/DigitalOutputConfig"
+      tags:
+        - config
+
+components:
+  schemas:
+    DigitalOutputConfig:
+      type: object

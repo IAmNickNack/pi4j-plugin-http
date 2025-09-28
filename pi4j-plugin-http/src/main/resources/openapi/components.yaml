@@ -1,0 +1,17 @@
+components:
+
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The Pi4J device id.
+      schema:
+        type: string
+        example: my-io-1
+
+  responses:
+    '404':
+      description: Device not found.
+    '409':
+      description: Device already exists.

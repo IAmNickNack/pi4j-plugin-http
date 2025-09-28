@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: I2C
+  description: I2C
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /api/i2c/{id}:
+    post:
+      summary: I2C Transfer
+      description: Perform an I2C write operation
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/I2CTransfer"
+      responses:
+        '200':
+          $ref: "#/components/responses/200-status"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+
+  /api/i2c/{id}/length/{length}:
+    get:
+      summary: I2C Read
+      description: Perform an I2C read operation
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+        - name: length
+          in: path
+          required: true
+          description: The length of the data to read.
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          $ref: "#/components/responses/200-body"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+
+  /api/i2c/{id}/register/{register}:
+    post:
+      summary: I2C Write Register
+      description: Perform an I2C write register operation
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+        - $ref: "#/components/parameters/register"
+      responses:
+        '200':
+          $ref: "#/components/responses/200-status"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+
+  /api/i2c/{id}/register/{register}/length/{length}:
+    get:
+      summary: I2C Read Register
+      description: Perform an I2C read register operation
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+        - $ref: "#/components/parameters/register"
+        - name: length
+          in: path
+          required: true
+          description: The length of the data to read.
+          schema:
+            type: integer
+            example: 1
+
+  /api/config/i2c:
+    get:
+      summary: List all I2C devices
+      description: Fetch all I2C device configurations.
+      responses:
+        '200':
+          description: Successful response with a list of all I2C devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: "#/components/schemas/DigitalOutputConfig"
+      tags:
+        - config
+
+  /spi/config/i2c/{id}:
+    get:
+      summary: Get I2C device configuration
+      description: Fetch an I2C device configuration.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response with the I2C device configuration.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/I2CConfig"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    delete:
+      summary: Delete I2C device
+      description: Delete an I2C device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    post:
+      summary: Create I2C device
+      description: Create an I2C device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/I2CConfig"
+      responses:
+        '409':
+          $ref: "./components.yaml#/components/responses/409"
+      tags:
+        - config
+
+
+components:
+  schemas:
+    I2CTransfer:
+      type: object
+      properties:
+        data:
+          type: string
+          description: The data to send to the I2C, represented as a base64 encoded string.
+
+    I2CResponse:
+      type: object
+      properties:
+        resultCode:
+          type: integer
+          description: The result code of the I2C transfer.
+        payload:
+          type: I2CTransfer
+          description: The payload of the I2C transfer.
+
+    I2CConfig:
+      type: object
+
+  responses:
+    '200-status':
+      description: Successful I2C write
+      content:
+        application/json:
+          schema:
+            type: integer
+            description: The result code of the I2C write operation.
+
+    '200-body':
+      description: Successful I2C read
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/I2CResponse"
+
+  parameters:
+    register:
+      name: register
+      in: path
+      required: true
+      description: The register to read from.
+      schema:
+        type: integer
+        example: 1

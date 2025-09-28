@@ -1,0 +1,23 @@
+logging:
+    level:
+        root: INFO
+        com.pi4j: DEBUG
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: I2C
+        url: /openapi/I2C.yaml
+      - name: SPI
+        url: /openapi/Spi.yaml
+      - name: PWM
+        url: /openapi/Pwm.yaml
+      - name: Digital Output
+        url: /openapi/DigitalOutput.yaml
+      - name: Digital Input
+        url: /openapi/DigitalInput.yaml
+      - name: Digital Event
+        url: /openapi/DigitalEvent.yaml

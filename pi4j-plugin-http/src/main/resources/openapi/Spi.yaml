@@ -1,0 +1,111 @@
+openapi: 3.1.0
+info:
+  title: SPI
+  description: SPI
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /api/spi/{id}:
+    post:
+      summary: SPI Transfer
+      description: Perform an SPI data payload.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SpiTransfer"
+      responses:
+        '200':
+          description: Successful response with the received data from the SPI payload.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpiTransfer"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
+
+  /api/config/spi:
+    get:
+      summary: List all SPI devices
+      description: Fetch all SPI device configurations.
+      responses:
+        '200':
+          description: Successful response with a list of all SPI devices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SpiConfig"
+      tags:
+        - config
+
+  /spi/config/spi/{id}:
+    get:
+      summary: Get SPI device configuration
+      description: Fetch an SPI device configuration.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '200':
+          description: Successful response with the SPI device configuration.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpiConfig"
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    delete:
+      summary: Delete SPI device
+      description: Delete an SPI device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      responses:
+        '404':
+          $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - config
+
+    post:
+      summary: Create SPI device
+      description: Create an SPI device.
+      parameters:
+        - $ref: "./components.yaml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SpiConfig"
+      responses:
+        '409':
+          $ref: "./components.yaml#/components/responses/409"
+      tags:
+        - config
+
+components:
+  schemas:
+    SpiTransfer:
+      type: object
+      properties:
+        data:
+          type: string
+          description: The data to send or received from the SPI payload, represented as a base64 encoded string.
+
+    SpiConfig:
+      type: object
+
+tags:
+  - name: operation
+    description: Runtime operations
+  - name: config
+    description: Device configuration
