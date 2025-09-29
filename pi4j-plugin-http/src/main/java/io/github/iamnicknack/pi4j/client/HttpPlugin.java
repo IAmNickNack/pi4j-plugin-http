@@ -20,7 +20,7 @@ public class HttpPlugin implements Plugin {
 
         ObjectMapper objectMapper = Pi4jJacksonModule
                 .configureMapper(new ObjectMapper())
-                .registerModule(new Pi4jJacksonModule());
+                .registerModule(new Pi4jJacksonModule(service.context()));
 
         HttpRequests httpRequests = new OkHttpRequests(new OkHttpClient(), objectMapper);
 

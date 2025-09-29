@@ -3,6 +3,7 @@ package io.github.iamnicknack.pi4j.client.requests;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pi4j.Pi4J;
 import io.github.iamnicknack.pi4j.common.ErrorResponsePayload;
 import io.github.iamnicknack.pi4j.common.Pi4jJacksonModule;
 import okhttp3.*;
@@ -31,7 +32,7 @@ public class OkHttpRequests implements HttpRequests {
         this.client = client;
         this.objectMapper = Pi4jJacksonModule
                 .configureMapper(new ObjectMapper())
-                .registerModule(new Pi4jJacksonModule());
+                .registerModule(new Pi4jJacksonModule(Pi4J.newContext()));
     }
 
     public OkHttpRequests(OkHttpClient client, ObjectMapper objectMapper) {
