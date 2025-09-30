@@ -21,6 +21,8 @@ paths:
                 type: string
         '404':
           $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - event
 
     delete:
       summary: Unregister from events
@@ -32,4 +34,6 @@ paths:
           description: Successful response indicating the SSE stream was stopped.
         '404':
           $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - event
 

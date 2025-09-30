@@ -43,13 +43,13 @@ paths:
       tags:
         - operation
 
-  /api/config/digitalinput:
+  /api/config/digitaloutput:
     get:
-      summary: List all Digital Input devices
-      description: Fetch all Digital Input device configurations.
+      summary: List all Digital Output devices
+      description: Fetch all Digital Output device configurations.
       responses:
         '200':
-          description: Successful response with a list of all Digital Input devices.
+          description: Successful response with a list of all Digital Output devices.
           content:
             application/json:
               schema:
@@ -59,7 +59,7 @@ paths:
       tags:
         - config
 
-  /api/config/digitalinput/{id}:
+  /api/config/digitaloutput/{id}:
     get:
       summary: Get Digital Output device configuration
       description: Fetch a Digital Output device configuration.

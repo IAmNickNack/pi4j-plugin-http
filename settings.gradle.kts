@@ -1,4 +1,5 @@
-rootProject.name = "pi4j-server"
+rootProject.name = "pi4j-plugin-http"
+
 include("pi4j-plugin-http")
 include("pi4j-plugin-http-common")
 include("pi4j-plugin-http-server")

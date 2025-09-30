@@ -23,6 +23,8 @@ paths:
           $ref: "#/components/responses/200-status"
         '404':
           $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
 
   /api/i2c/{id}/length/{length}:
     get:
@@ -42,6 +44,8 @@ paths:
           $ref: "#/components/responses/200-body"
         '404':
           $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
 
   /api/i2c/{id}/register/{register}:
     post:
@@ -55,6 +59,8 @@ paths:
           $ref: "#/components/responses/200-status"
         '404':
           $ref: "./components.yaml#/components/responses/404"
+      tags:
+        - operation
 
   /api/i2c/{id}/register/{register}/length/{length}:
     get:
@@ -70,6 +76,8 @@ paths:
           schema:
             type: integer
             example: 1
+      tags:
+        - operation
 
   /api/config/i2c:
     get:
