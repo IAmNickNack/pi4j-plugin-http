@@ -15,4 +15,5 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
     implementation(libs.kotlin.spring)
     implementation(libs.spring.gradle)
+    implementation("com.google.protobuf:protobuf-gradle-plugin:0.9.5")
 }
