@@ -33,8 +33,8 @@ public class GrpcPwmProvider extends PwmProviderBase {
     }
 
     @Override
-    public PwmProvider shutdown(Context context) throws ShutdownException {
-        return super.shutdown(context);
+    public PwmProvider shutdownInternal(Context context) throws ShutdownException {
+        return super.shutdownInternal(context);
     }
 
     @Override

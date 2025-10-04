@@ -55,11 +55,11 @@ public class HttpI2CProvider extends I2CProviderBase {
 
 
     @Override
-    public I2CProvider shutdown(Context context) throws ShutdownException {
+    public I2CProvider shutdownInternal(Context context) throws ShutdownException {
         logger.info("Shutting down I2C Provider");
         // remove all locally created devices from the server registry
         httpRequests.deleteJson(baseUrl + "/api/config/i2c", constructedDevices.keySet(), Void.class);
-        return super.shutdown(context);
+        return super.shutdownInternal(context);
     }
 
 

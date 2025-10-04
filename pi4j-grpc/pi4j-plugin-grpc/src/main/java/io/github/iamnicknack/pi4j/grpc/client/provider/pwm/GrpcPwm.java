@@ -28,8 +28,8 @@ public class GrpcPwm extends PwmBase {
     }
 
     @Override
-    public Pwm shutdown(Context context) throws ShutdownException {
-        super.shutdown(context);
+    public Pwm shutdownInternal(Context context) throws ShutdownException {
+        super.shutdownInternal(context);
         provider.removeDevice(this);
         return this;
     }

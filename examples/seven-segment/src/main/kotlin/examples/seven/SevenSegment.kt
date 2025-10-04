@@ -73,11 +73,11 @@ class SevenSegment : AutoCloseable {
             .id("refresh")
             .name("Refresh PWM")
             // v3
-            .address(2)
+//            .address(2)
 //            .busNumber(0)
             // v4
-//            .address(0)
-//            .busNumber(2)
+            .address(0)
+            .busNumber(2)
             .pwmType(PwmType.HARDWARE)
             .frequency(220)
             .dutyCycle(50)

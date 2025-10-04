@@ -46,8 +46,8 @@ public class GrpcDigitalOutput extends DigitalOutputBase {
     }
 
     @Override
-    public DigitalOutput shutdown(Context context) throws ShutdownException {
-        super.shutdown(context);
+    public DigitalOutput shutdownInternal(Context context) throws ShutdownException {
+        super.shutdownInternal(context);
         provider.removeDevice(this);
         return this;
     }

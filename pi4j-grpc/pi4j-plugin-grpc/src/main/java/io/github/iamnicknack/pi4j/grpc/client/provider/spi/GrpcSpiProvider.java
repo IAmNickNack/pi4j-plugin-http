@@ -33,8 +33,8 @@ public class GrpcSpiProvider extends SpiProviderBase {
     }
 
     @Override
-    public SpiProvider shutdown(Context context) throws ShutdownException {
-        return super.shutdown(context);
+    public SpiProvider shutdownInternal(Context context) throws ShutdownException {
+        return super.shutdownInternal(context);
     }
 
     @Override
