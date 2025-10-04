@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.github.iamnicknack.pi4j.grpc.gen.device";
+
+package pi4j;
+
+import "pi4j/pi4j.types.proto";
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+/// Digital devices
+///////////////////////////////////////////////////////////////////////////////////////
+
+service DigitalInputService {
+  rpc GetState (GetDigitalStateRequest) returns (DigitalStateResponse) {}
+  rpc AddListener(pi4j.types.DeviceIdRequest) returns (stream DigitalStateResponse);
+}
+
+service DigitalOutputService {
+  rpc GetState (GetDigitalStateRequest) returns (DigitalStateResponse) {}
+  rpc SetState (SetDigitalStateRequest) returns (DigitalStateResponse) {}
+  rpc AddListener(pi4j.types.DeviceIdRequest) returns (stream DigitalStateResponse);
+}
+
+message GetDigitalStateRequest {
+  string deviceId = 1;
+}
+
+message SetDigitalStateRequest {
+  string deviceId = 1;
+  DeviceState state = 2;
+}
+
+message DigitalStateResponse {
+  DeviceState state = 1;
+}
+
+enum DeviceState {
+  LOW = 0;
+  HIGH = 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+/// PWM
+///////////////////////////////////////////////////////////////////////////////////////
+
+service PwmService {
+  rpc SetEnabled(pi4j.types.BooleanDeviceRequest) returns (pi4j.types.BooleanResponse) {}
+  rpc GetEnabled(pi4j.types.DeviceIdRequest) returns (pi4j.types.BooleanResponse) {}
+  rpc SetDutyCycle(pi4j.types.IntegerDeviceRequest) returns (pi4j.types.IntegerResponse) {}
+  rpc GetDutyCycle(pi4j.types.DeviceIdRequest) returns (pi4j.types.IntegerResponse) {}
+  rpc SetFrequency(pi4j.types.IntegerDeviceRequest) returns (pi4j.types.IntegerResponse) {}
+  rpc GetFrequency(pi4j.types.DeviceIdRequest) returns (pi4j.types.IntegerResponse) {}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+/// SPI
+///////////////////////////////////////////////////////////////////////////////////////
+
+service SpiService {
+  rpc Transfer(pi4j.types.DataRequest) returns (pi4j.types.DataResponse);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+/// I2C
+///////////////////////////////////////////////////////////////////////////////////////
+
+service I2CService {
+  rpc Read(pi4j.types.IntegerDeviceRequest) returns (pi4j.types.DataResponse);
+  rpc Write(pi4j.types.DataRequest) returns (pi4j.types.IntegerResponse);
+  rpc ReadRegister(ReadRegisterRequest) returns (pi4j.types.DataResponse);
+  rpc WriteRegister(WriteRegisterRequest) returns (pi4j.types.IntegerResponse);
+}
+
+message ReadRegisterRequest {
+  string deviceId = 1;
+  int32 register = 2;
+  int32 length = 3;
+}
+
+message WriteRegisterRequest {
+  string deviceId = 1;
+  int32 register = 2;
+  bytes payload = 3;
+}

@@ -4,45 +4,78 @@ import com.pi4j.Pi4J
 import com.pi4j.context.Context
 import com.pi4j.io.gpio.digital.DigitalOutput
 import com.pi4j.io.gpio.digital.DigitalState
+import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl
 import io.github.iamnicknack.pi4j.client.HttpDigitalOutputProvider
-import io.github.iamnicknack.pi4j.client.requests.OkHttpRequests
+import io.github.iamnicknack.pi4j.grpc.client.GrpcDigitalOutputProvider
+import io.grpc.Grpc
+import io.grpc.InsecureChannelCredentials
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
 
-fun main() {
+class GpioEvents : AutoCloseable {
 
-    val logger = LoggerFactory.getLogger("main")
-    val baseUrl = System.getenv("PI4J_BASE_URL") ?: "http://localhost:8080"
+//    -Dpi4j.plugin=grpc -Dpi4j.host=10.0.0.2:9090
 
-    val context: Context = Pi4J.newContextBuilder()
-        .add(HttpDigitalOutputProvider(baseUrl, OkHttpRequests()))
-        .build()
+    val host: String by lazy {
+        System.getProperty("pi4j.host", "localhost:8080")
+    }
 
-    val output = context.create(
-        DigitalOutput.newConfigBuilder(context)
+    val pi4j: Context by lazy {
+        when (System.getProperty("pi4j.plugin", "mock")) {
+            "http" -> {
+                Pi4J.newContextBuilder()
+                    .add(HttpDigitalOutputProvider("http://$host"))
+                    .build()
+            }
+            "grpc" -> {
+                val channel = Grpc.newChannelBuilder(host, InsecureChannelCredentials.create()).build()
+                Pi4J.newContextBuilder()
+                    .add(GrpcDigitalOutputProvider(channel))
+                    .build()
+            }
+            else -> Pi4J.newContextBuilder()
+                .add(MockDigitalOutputProviderImpl())
+                .build()
+        }
+    }
+
+    val output: DigitalOutput = pi4j.create(
+        DigitalOutput.newConfigBuilder(pi4j)
             .id("test-output")
             .address(5)
             .shutdown(DigitalState.LOW)
             .build()
     )
 
+
+    override fun close() {
+        pi4j.shutdown()
+    }
+}
+
+fun main() {
+    val logger = LoggerFactory.getLogger("main")
     val count = AtomicInteger(0)
 
-    output.addListener({
-        logger.info("############# Digital output state changed: ${it.state()} ############# ")
-        count.incrementAndGet()
-    })
+    GpioEvents().use { gpioEvents ->
 
-    output.high()
-    Thread.sleep(1000)
+        gpioEvents.output.addListener({
+            logger.info("############# Digital output state changed: ${it.state()} ############# ")
+            count.incrementAndGet()
+        })
 
-    output.low()
-    Thread.sleep(1000)
+        Thread.sleep(500);
 
-    output.high()
-    Thread.sleep(1000)
+        gpioEvents.output.high()
+        Thread.sleep(1000)
 
-    context.shutdown()
+        gpioEvents.output.low()
+        Thread.sleep(1000)
+
+        gpioEvents.output.high()
+        Thread.sleep(1000)
+
+    }
 
     logger.info("############# Finished ############# ")
     logger.info("############# Count: ${count.get()} ############# ")

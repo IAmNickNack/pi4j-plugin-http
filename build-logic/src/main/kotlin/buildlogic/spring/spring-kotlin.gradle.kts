@@ -1,7 +1,6 @@
 package buildlogic.spring
 
 import buildlogic.withVersionCatalog
-import org.gradle.kotlin.dsl.kotlin
 
 plugins {
     kotlin("jvm")
@@ -12,6 +11,7 @@ plugins {
 
 dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     withVersionCatalog {
         testImplementation(libs.assertk)
