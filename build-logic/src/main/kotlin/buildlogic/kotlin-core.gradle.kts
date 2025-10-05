@@ -15,5 +15,4 @@ dependencies {
     withVersionCatalog {
         implementation(platform(libs.kotlin.bom))
     }
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
 }

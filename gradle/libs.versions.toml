@@ -9,9 +9,16 @@ kotlin = "2.2.0"
 kotlin-coroutines = "1.8.1"
 logback = "1.5.18"
 okhttp = "5.1.0"
+slf4j = "2.0.17"
 spring-boot = "3.5.6"
 spring-doc = "2.8.13"
 wiremock = "3.13.1"
+
+grpc-core = "1.75.0"
+grpc-kotlin = "1.4.3"
+protobuf = "4.32.1"
+
+shadow = "9.2.0"
 
 pi4j = "3.0.3"
 #pi4j = "4.0.0-SNAPSHOT"
@@ -30,6 +37,7 @@ kotlin-spring = { module = "org.jetbrains.kotlin.plugin.spring:org.jetbrains.kot
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-sse = { module = "com.squareup.okhttp3:okhttp-sse", version.ref = "okhttp" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 spring-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 spring-doc = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "spring-doc" }
 spring-gradle = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring-boot" }
@@ -42,8 +50,30 @@ pi4j-raspberrypi = { module = "com.pi4j:pi4j-plugin-raspberrypi", version.ref = 
 wiremock-core = { module = "org.wiremock:wiremock-standalone", version.ref = "wiremock" }
 wiremock-jetty = { module = "org.wiremock:wiremock-jetty12", version.ref = "wiremock" }
 
+grpc-protobuf = { group = "io.grpc", name = "grpc-protobuf", version.ref = "grpc-core" }
+grpc-protobuf-lite = { group = "io.grpc", name = "grpc-protobuf-lite", version.ref = "grpc-core" }
+grpc-netty = { group = "io.grpc", name = "grpc-netty", version.ref = "grpc-core" }
+grpc-okhttp = { group = "io.grpc", name = "grpc-okhttp", version.ref = "grpc-core" }
+grpc-testing = { group = "io.grpc", name = "grpc-testing", version.ref = "grpc-core" }
+grpc-services = { group = "io.grpc", name = "grpc-services", version.ref = "grpc-core" }
+grpc-stub = { group = "io.grpc", name = "grpc-stub", version.ref = "grpc-core" }
+grpc-kotlin-stub = { group = "io.grpc", name = "grpc-kotlin-stub", version.ref = "grpc-kotlin" }
+grpc-inprocess = { group = "io.grpc", name = "grpc-inprocess", version.ref = "grpc-core" }
+
+protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+protobuf-java = { group = "com.google.protobuf", name = "protobuf-java", version.ref = "protobuf" }
+protobuf-kotlin = { group = "com.google.protobuf", name = "protobuf-kotlin", version.ref = "protobuf" }
+protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
+protobuf-java-util = { group = "com.google.protobuf", name = "protobuf-java-util", version.ref = "protobuf" }
+protoc-gen-grpc-java = { group = "io.grpc", name = "protoc-gen-grpc-java", version.ref = "grpc-core" }
+protoc-gen-grpc-kotlin = { group = "io.grpc", name = "protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
+
 
 [bundles]
 
 pi4j = ["pi4j-core", "pi4j-plugin-mock", "pi4j-plugin-linuxfs", "pi4j-plugin-gpiod", "pi4j-raspberrypi"]
 wiremock = ["wiremock-core", "wiremock-jetty"]
+
+[plugins]
+
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

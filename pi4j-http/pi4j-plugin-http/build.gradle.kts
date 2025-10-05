@@ -12,7 +12,6 @@ dependencies {
     implementation(libs.jackson.databind)
     implementation(libs.pi4j.core)
     implementation(libs.pi4j.plugin.mock)
-
     runtimeOnly(libs.logback.classic)
 
     testImplementation(platform(libs.spring.dependencies))

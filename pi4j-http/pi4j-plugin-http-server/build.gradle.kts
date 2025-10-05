@@ -14,5 +14,3 @@ dependencies {
 tasks.bootRun {
     jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
-
-

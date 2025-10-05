@@ -1,6 +1,7 @@
 package examples.seven
 
 import com.pi4j.Pi4J
+import com.pi4j.context.Context
 import com.pi4j.io.gpio.digital.DigitalOutput
 import com.pi4j.io.gpio.digital.DigitalState
 import com.pi4j.io.pwm.Pwm
@@ -8,23 +9,51 @@ import com.pi4j.io.pwm.PwmType
 import com.pi4j.io.spi.Spi
 import com.pi4j.io.spi.SpiBus
 import com.pi4j.io.spi.SpiMode
-import io.github.iamnicknack.pi4j.client.HttpDigitalInputProvider
+import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl
+import com.pi4j.plugin.mock.provider.pwm.MockPwmProviderImpl
+import com.pi4j.plugin.mock.provider.spi.MockSpiProviderImpl
 import io.github.iamnicknack.pi4j.client.HttpDigitalOutputProvider
 import io.github.iamnicknack.pi4j.client.HttpPwmProvider
 import io.github.iamnicknack.pi4j.client.HttpSpiProvider
+import io.github.iamnicknack.pi4j.grpc.client.GrpcDigitalOutputProvider
+import io.github.iamnicknack.pi4j.grpc.client.GrpcPwmProvider
+import io.github.iamnicknack.pi4j.grpc.client.GrpcSpiProvider
+import io.grpc.Grpc
+import io.grpc.InsecureChannelCredentials
+
+class SevenSegment : AutoCloseable {
 
 
-fun main() {
-    val baseUrl = System.getenv("PI4J_BASE_URL") ?: "http://localhost:8080"
+    val host: String by lazy {
+        System.getProperty("pi4j.host", "localhost:8080")
+    }
 
-    val pi4j = Pi4J.newContextBuilder()
-        .add(HttpDigitalOutputProvider(baseUrl))
-        .add(HttpDigitalInputProvider(baseUrl))
-        .add(HttpPwmProvider(baseUrl))
-        .add(HttpSpiProvider(baseUrl))
-        .build()
+    val pi4j: Context by lazy {
+        when (System.getProperty("pi4j.plugin", "mock")) {
+            "http" -> {
+                Pi4J.newContextBuilder()
+                    .add(HttpDigitalOutputProvider("http://$host"))
+                    .add(HttpPwmProvider("http://$host"))
+                    .add(HttpSpiProvider("http://$host"))
+                    .build()
+            }
+            "grpc" -> {
+                val channel = Grpc.newChannelBuilder(host, InsecureChannelCredentials.create()).build()
+                Pi4J.newContextBuilder()
+                    .add(GrpcDigitalOutputProvider(channel))
+                    .add(GrpcPwmProvider(channel))
+                    .add(GrpcSpiProvider(channel))
+                    .build()
+            }
+            else -> Pi4J.newContextBuilder()
+                .add(MockDigitalOutputProviderImpl())
+                .add(MockPwmProviderImpl())
+                .add(MockSpiProviderImpl())
+                .build()
+        }
+    }
 
-    val resetPin = pi4j.create(
+    val resetPin: DigitalOutput = pi4j.create(
         DigitalOutput.newConfigBuilder(pi4j)
             .id("reset")
             .name("Reset Pin")
@@ -34,7 +63,7 @@ fun main() {
             .build()
     )
 
-    val pwm = pi4j.create(
+    val pwm: Pwm = pi4j.create(
         Pwm.newConfigBuilder(pi4j)
             .id("refresh")
             .name("Refresh PWM")
@@ -46,7 +75,7 @@ fun main() {
             .build()
     )
 
-    val spi = pi4j.create(
+    val spi: Spi = pi4j.create(
         Spi.newConfigBuilder(pi4j)
             .id("spi")
             .name("SPI")
@@ -57,20 +86,26 @@ fun main() {
             .build()
     )
 
-    resetPin.high()
-    resetPin.low()
-    resetPin.high()
-
-    pwm.on()
-
-    for (i in 0..10000) {
-        spi.write(SevenSegment.toBytes(i))
+    override fun close() {
+        pi4j.shutdown()
     }
-
-    pi4j.shutdown()
 }
 
-object SevenSegment {
+fun main() {
+    SevenSegment().use { sevenSegment ->
+        sevenSegment.resetPin.high()
+        sevenSegment.resetPin.low()
+        sevenSegment.resetPin.high()
+
+        sevenSegment.pwm.on()
+
+        for (i in 0..10000) {
+            sevenSegment.spi.write(Segments.toBytes(i))
+        }
+    }
+}
+
+object Segments {
     const val SEG_A: Int = 1
     val SEG_B: Int = 1 shl 2
     val SEG_C: Int = 1 shl 6
