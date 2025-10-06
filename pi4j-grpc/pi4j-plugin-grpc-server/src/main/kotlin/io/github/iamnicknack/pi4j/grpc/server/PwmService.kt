@@ -4,9 +4,13 @@ import com.pi4j.Pi4J
 import com.pi4j.context.Context
 import com.pi4j.io.pwm.Pwm
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalInputProviderImpl
-import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.deviceOrThrow
 import io.github.iamnicknack.pi4j.grpc.gen.device.PwmServiceGrpcKt
-import io.github.iamnicknack.pi4j.grpc.gen.types.*
+import io.github.iamnicknack.pi4j.grpc.gen.types.BooleanDeviceRequest
+import io.github.iamnicknack.pi4j.grpc.gen.types.BooleanResponse
+import io.github.iamnicknack.pi4j.grpc.gen.types.DeviceIdRequest
+import io.github.iamnicknack.pi4j.grpc.gen.types.IntegerDeviceRequest
+import io.github.iamnicknack.pi4j.grpc.gen.types.IntegerResponse
+import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.deviceOrThrow
 
 class PwmService(
     private val pi4j: Context = Pi4J.newContextBuilder().add(MockDigitalInputProviderImpl()).build()
@@ -40,7 +44,7 @@ class PwmService(
 
     override suspend fun setFrequency(request: IntegerDeviceRequest): IntegerResponse {
         val device = pi4j.deviceOrThrow(request.deviceId, Pwm::class.java)
-        device.frequency(request.value)
+        device.frequency = request.value
         return IntegerResponse.newBuilder().setValue(request.value).build()
     }
 
