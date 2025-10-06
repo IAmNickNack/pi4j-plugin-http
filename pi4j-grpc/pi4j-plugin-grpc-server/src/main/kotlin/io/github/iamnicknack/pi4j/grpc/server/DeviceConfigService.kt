@@ -2,7 +2,12 @@ package io.github.iamnicknack.pi4j.grpc.server
 
 import com.pi4j.Pi4J
 import com.pi4j.context.Context
-import com.pi4j.io.gpio.digital.*
+import com.pi4j.io.gpio.digital.DigitalInput
+import com.pi4j.io.gpio.digital.DigitalInputConfig
+import com.pi4j.io.gpio.digital.DigitalInputProvider
+import com.pi4j.io.gpio.digital.DigitalOutput
+import com.pi4j.io.gpio.digital.DigitalOutputConfig
+import com.pi4j.io.gpio.digital.DigitalOutputProvider
 import com.pi4j.io.i2c.I2C
 import com.pi4j.io.i2c.I2CConfig
 import com.pi4j.io.i2c.I2CProvider
@@ -12,7 +17,13 @@ import com.pi4j.io.pwm.PwmProvider
 import com.pi4j.io.spi.Spi
 import com.pi4j.io.spi.SpiConfig
 import com.pi4j.io.spi.SpiProvider
-import io.github.iamnicknack.pi4j.grpc.gen.config.*
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigPayload
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigServiceGrpcKt
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceListRequest
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceListResponse
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceRequest
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceType
+import io.github.iamnicknack.pi4j.grpc.gen.config.Empty
 
 class DeviceConfigService(
     private val pi4j: Context = Pi4J.newContextBuilder().build()

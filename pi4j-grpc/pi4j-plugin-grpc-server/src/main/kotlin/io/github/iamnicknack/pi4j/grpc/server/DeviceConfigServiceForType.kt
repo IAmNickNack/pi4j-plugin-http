@@ -6,7 +6,12 @@ import com.pi4j.io.IO
 import com.pi4j.io.IOConfig
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalInputProviderImpl
 import com.pi4j.provider.Provider
-import io.github.iamnicknack.pi4j.grpc.gen.config.*
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigPayload
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigServiceGrpcKt
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceListRequest
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceListResponse
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceRequest
+import io.github.iamnicknack.pi4j.grpc.gen.config.Empty
 import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.asIOType
 import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.deviceOrThrow
 import io.grpc.Status
@@ -80,7 +85,7 @@ internal class DeviceConfigServiceForType<
                     .setDeviceType(request.deviceType)
                     .putAllConfig(config.properties() as Map<String, String>)
                     .build()
-               builder.addDevice(payload)
+                builder.addDevice(payload)
             }
             .build()
     }

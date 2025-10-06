@@ -46,7 +46,9 @@ class DigitalOutputService(
     override fun addListener(request: DeviceIdRequest): Flow<DigitalStateResponse> = callbackFlow {
         val device = pi4j.deviceOrThrow(request.deviceId, DigitalOutput::class.java)
         val listener = DigitalStateChangeListener { event ->
-            logger.debug("Digital output state changed: {}", event.state())
+            if (logger.isDebugEnabled) {
+                logger.debug("Digital output state changed: {}", event.state())
+            }
 
             val state = event.state().asDeviceState()
             trySend(

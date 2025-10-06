@@ -16,7 +16,7 @@ object Pi4jGrpcExt {
     fun <T : IO<T, *, *>> Context.deviceOrThrow(deviceId: String, type: Class<T>): T {
         if (!this.registry().exists(deviceId)) {
             throw Status.NOT_FOUND
-                .withDescription("${type.simpleName} device `${deviceId}` not found")
+                .withDescription("${type.simpleName} device `$deviceId` not found")
                 .asException()
         }
 
@@ -26,7 +26,7 @@ object Pi4jGrpcExt {
     /**
      * Convert grpc DigitalState to Pi4J DeviceState
      */
-    fun DigitalState.asDeviceState(): DeviceState = when(this) {
+    fun DigitalState.asDeviceState(): DeviceState = when (this) {
         DigitalState.HIGH -> DeviceState.HIGH
         DigitalState.LOW -> DeviceState.LOW
         else -> DeviceState.UNRECOGNIZED
@@ -35,7 +35,7 @@ object Pi4jGrpcExt {
     /**
      * Convert Pi4J DeviceState to Pi4J grpc DigitalState
      */
-    fun DeviceState.asDigitalState(): DigitalState = when(this) {
+    fun DeviceState.asDigitalState(): DigitalState = when (this) {
         DeviceState.HIGH -> DigitalState.HIGH
         DeviceState.LOW -> DigitalState.LOW
         else -> DigitalState.UNKNOWN
@@ -44,15 +44,15 @@ object Pi4jGrpcExt {
     /**
      * Convert grpc DeviceType to Pi4J IOType
      */
-    fun DeviceType.asIOType(): IOType = when(this) {
+    fun DeviceType.asIOType(): IOType = when (this) {
         DeviceType.DIGITAL_INPUT -> IOType.DIGITAL_INPUT
         DeviceType.DIGITAL_OUTPUT -> IOType.DIGITAL_OUTPUT
         DeviceType.PWM -> IOType.PWM
         DeviceType.I2C -> IOType.I2C
         DeviceType.SPI -> IOType.SPI
-        DeviceType.UNRECOGNIZED -> throw Status.NOT_FOUND
-            .withDescription("Device type `${this.name}` not found or not supported")
-            .asException()
+        DeviceType.UNRECOGNIZED ->
+            throw Status.NOT_FOUND
+                .withDescription("Device type `${this.name}` not found or not supported")
+                .asException()
     }
-
 }

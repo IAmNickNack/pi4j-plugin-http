@@ -5,7 +5,6 @@ import com.pi4j.Pi4J
 import com.pi4j.context.Context
 import com.pi4j.io.i2c.I2C
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalInputProviderImpl
-import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.deviceOrThrow
 import io.github.iamnicknack.pi4j.grpc.gen.device.I2CServiceGrpcKt
 import io.github.iamnicknack.pi4j.grpc.gen.device.ReadRegisterRequest
 import io.github.iamnicknack.pi4j.grpc.gen.device.WriteRegisterRequest
@@ -13,6 +12,7 @@ import io.github.iamnicknack.pi4j.grpc.gen.types.DataRequest
 import io.github.iamnicknack.pi4j.grpc.gen.types.DataResponse
 import io.github.iamnicknack.pi4j.grpc.gen.types.IntegerDeviceRequest
 import io.github.iamnicknack.pi4j.grpc.gen.types.IntegerResponse
+import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.deviceOrThrow
 
 class I2CService(
     private val pi4j: Context = Pi4J.newContextBuilder().add(MockDigitalInputProviderImpl()).build()
