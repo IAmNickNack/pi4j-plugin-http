@@ -3,11 +3,6 @@ package io.github.iamnicknack.pi4j.server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pi4j.context.Context;
 import com.pi4j.context.ContextBuilder;
-import com.pi4j.plugin.ffm.providers.gpio.DigitalInputFFMProviderImpl;
-import com.pi4j.plugin.ffm.providers.gpio.DigitalOutputFFMProviderImpl;
-import com.pi4j.plugin.ffm.providers.i2c.I2CFFMProviderImpl;
-import com.pi4j.plugin.ffm.providers.pwm.PwmFFMProviderImpl;
-import com.pi4j.plugin.ffm.providers.spi.SpiFFMProviderImpl;
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalInputProviderImpl;
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl;
 import com.pi4j.plugin.mock.provider.i2c.MockI2CProviderImpl;
@@ -55,23 +50,6 @@ public class Pi4jConfig {
     Context pi4j(ContextBuilder builder) {
         return builder
                 .autoDetect()
-                .build();
-    }
-
-    /**
-     * Pi4j FFM context
-     */
-    @ConditionalOnRaspberryPi
-    @Bean(destroyMethod = "shutdown")
-    @Primary
-    @Profile("ffm")
-    Context pi4jFFM(ContextBuilder builder) {
-        return builder
-                .add(new DigitalOutputFFMProviderImpl())
-                .add(new DigitalInputFFMProviderImpl())
-                .add(new PwmFFMProviderImpl())
-                .add(new I2CFFMProviderImpl())
-                .add(new SpiFFMProviderImpl())
                 .build();
     }
 

@@ -1,13 +1,7 @@
 package io.github.iamnicknack.pi4j.grpc.server.config
 
 import com.pi4j.Pi4J
-import com.pi4j.boardinfo.util.BoardInfoHelper
 import com.pi4j.context.Context
-import com.pi4j.plugin.ffm.providers.gpio.DigitalInputFFMProviderImpl
-import com.pi4j.plugin.ffm.providers.gpio.DigitalOutputFFMProviderImpl
-import com.pi4j.plugin.ffm.providers.i2c.I2CFFMProviderImpl
-import com.pi4j.plugin.ffm.providers.pwm.PwmFFMProviderImpl
-import com.pi4j.plugin.ffm.providers.spi.SpiFFMProviderImpl
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalInputProviderImpl
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl
 import com.pi4j.plugin.mock.provider.i2c.MockI2CProviderImpl
@@ -91,18 +85,6 @@ class ServerContext(
         val builder = Pi4J.newContextBuilder()
 
         val context = when (this.pluginPreference.lowercase()) {
-            "ffm" if BoardInfoHelper.runningOnRaspberryPi()
-                .also {
-                    if (!it) logger.warn("Cannot load FFM. Compatible device not present")
-                } -> {
-                builder
-                    .add(DigitalInputFFMProviderImpl())
-                    .add(DigitalOutputFFMProviderImpl())
-                    .add(I2CFFMProviderImpl())
-                    .add(SpiFFMProviderImpl())
-                    .add(PwmFFMProviderImpl())
-                    .build()
-            }
             "grpc" if (proxyChannel != null)
                 .also {
                     if (!it) logger.warn("Cannot configure gRPC")

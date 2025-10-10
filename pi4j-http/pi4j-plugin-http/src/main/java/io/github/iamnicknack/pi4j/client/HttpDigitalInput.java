@@ -38,8 +38,8 @@ public class HttpDigitalInput extends DigitalInputBase {
     }
 
     @Override
-    public DigitalInput shutdownInternal(Context context) throws ShutdownException {
-        super.shutdownInternal(context);
+    public DigitalInput shutdown(Context context) throws ShutdownException {
+        super.shutdown(context);
         eventSource.cancel();
         try {
             httpRequests.deleteJson(String.format("/api/config/digitalinput/%s", this.config.id()), Void.class);

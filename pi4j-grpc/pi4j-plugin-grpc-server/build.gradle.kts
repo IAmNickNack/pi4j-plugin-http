@@ -12,7 +12,6 @@ plugins {
 dependencies {
     implementation(project(":pi4j-plugin-grpc"))
     implementation(libs.pi4j.core)
-    implementation(libs.pi4j.plugin.ffm)
     implementation(libs.pi4j.plugin.mock)
     implementation(libs.logback.classic)
     testImplementation(libs.grpc.testing)

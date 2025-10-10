@@ -21,13 +21,13 @@ public class HttpSpi extends SpiBase {
     }
 
     @Override
-    public Spi shutdownInternal(Context context) throws ShutdownException {
+    public Spi shutdown(Context context) throws ShutdownException {
         try {
             httpRequests.deleteJson(baseUrl + "/api/config/spi/" + this.getId(), Void.class);
         } catch (HttpRequests.HttpException e) {
             throw new ShutdownException(e);
         }
-        return super.shutdownInternal(context);
+        return super.shutdown(context);
     }
 
     @Override

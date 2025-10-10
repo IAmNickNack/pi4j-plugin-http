@@ -30,8 +30,8 @@ public class GrpcDigitalOutputProvider extends DigitalOutputProviderBase {
     }
 
     @Override
-    public DigitalOutputProvider shutdownInternal(Context context) throws ShutdownException {
-        return super.shutdownInternal(context);
+    public DigitalOutputProvider shutdown(Context context) throws ShutdownException {
+        return super.shutdown(context);
     }
 
     @Override

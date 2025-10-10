@@ -39,8 +39,8 @@ public class HttpDigitalOutput extends DigitalOutputBase {
     }
 
     @Override
-    public DigitalOutput shutdownInternal(Context context) throws ShutdownException {
-        super.shutdownInternal(context);
+    public DigitalOutput shutdown(Context context) throws ShutdownException {
+        super.shutdown(context);
         this.eventSource.cancel();
         try {
             httpRequests.deleteJson(String.format("/api/config/digitaloutput/%s", this.config.id()), Void.class);

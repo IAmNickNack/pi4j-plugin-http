@@ -33,8 +33,8 @@ public class GrpcI2CProvider extends I2CProviderBase {
     }
 
     @Override
-    public I2CProvider shutdownInternal(Context context) throws ShutdownException {
-        return super.shutdownInternal(context);
+    public I2CProvider shutdown(Context context) throws ShutdownException {
+        return super.shutdown(context);
     }
 
     @Override

@@ -46,9 +46,9 @@ public class GrpcDigitalInput extends DigitalInputBase {
     }
 
     @Override
-    public DigitalInput shutdownInternal(Context context) throws ShutdownException {
+    public DigitalInput shutdown(Context context) throws ShutdownException {
         provider.removeDevice(this);
-        return super.shutdownInternal(context);
+        return super.shutdown(context);
     }
 
     @Override

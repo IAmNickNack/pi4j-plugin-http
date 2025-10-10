@@ -26,8 +26,8 @@ public class GrpcSpi extends SpiBase {
     }
 
     @Override
-    public Spi shutdownInternal(Context context) throws ShutdownException {
-        super.shutdownInternal(context);
+    public Spi shutdown(Context context) throws ShutdownException {
+        super.shutdown(context);
         provider.removeDevice(this);
         return this;
     }

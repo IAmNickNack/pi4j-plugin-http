@@ -20,8 +20,8 @@ public class HttpPwm extends PwmBase {
     }
 
     @Override
-    public Pwm shutdownInternal(Context context) throws ShutdownException {
-        super.shutdownInternal(context);
+    public Pwm shutdown(Context context) throws ShutdownException {
+        super.shutdown(context);
         try {
             httpRequests.deleteJson(baseUrl + "/api/config/pwm/" + this.getId(), Void.class);
         } catch (HttpRequests.HttpException e) {

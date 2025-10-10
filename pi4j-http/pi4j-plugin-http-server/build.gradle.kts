@@ -9,7 +9,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation(libs.spring.doc)
     implementation(libs.bundles.pi4j)
-    implementation(libs.pi4j.plugin.ffm)
 }
 
 tasks.bootRun {
