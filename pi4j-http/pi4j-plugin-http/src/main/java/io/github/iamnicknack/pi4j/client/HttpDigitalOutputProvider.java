@@ -60,12 +60,12 @@ public class HttpDigitalOutputProvider extends DigitalOutputProviderBase {
     }
 
     @Override
-    public DigitalOutputProvider shutdown(Context context) throws ShutdownException {
+    public DigitalOutputProvider shutdownInternal(Context context) throws ShutdownException {
         logger.info("Shutting down HTTP Digital Output Provider");
         // remove all locally created devices from the server registry
         httpRequests.deleteJson(baseUrl + "/api/config/digitaloutput", constructedDevices.keySet(), Void.class);
         digitalEventSourceFactory.close();
-        return super.shutdown(context);
+        return super.shutdownInternal(context);
     }
 
     @Override

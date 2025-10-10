@@ -30,8 +30,8 @@ public class HttpI2C extends I2CBase<HttpI2C.NoopI2CBus> {
     }
 
     @Override
-    public I2C shutdown(Context context) throws ShutdownException {
-        super.shutdown(context);
+    public I2C shutdownInternal(Context context) throws ShutdownException {
+        super.shutdownInternal(context);
         try {
             httpRequests.deleteJson(String.format("/api/config/i2c/%s", this.config.id()), Void.class);
         } catch (HttpRequests.HttpException e) {

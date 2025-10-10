@@ -44,10 +44,10 @@ public class HttpPwmProvider extends PwmProviderBase {
     }
 
     @Override
-    public PwmProvider shutdown(Context context) throws ShutdownException {
+    public PwmProvider shutdownInternal(Context context) throws ShutdownException {
         logger.info("Shutting down HTTP PWM Provider");
         httpRequests.deleteJson(baseUrl + "/api/config/pwm", constructedDevices.keySet(), Void.class);
-        return super.shutdown(context);
+        return super.shutdownInternal(context);
     }
 
     @Override

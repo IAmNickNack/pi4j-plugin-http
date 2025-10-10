@@ -60,12 +60,12 @@ public class HttpDigitalInputProvider extends DigitalInputProviderBase {
     }
 
     @Override
-    public DigitalInputProvider shutdown(Context context) throws ShutdownException {
+    public DigitalInputProvider shutdownInternal(Context context) throws ShutdownException {
         logger.info("Shutting down HTTP Digital Input Provider");
         // remove all locally created devices from the server registry
         httpRequests.deleteJson(baseUrl + "/api/config/digitalinput", constructedDevices.keySet(), Void.class);
         digitalEventSourceFactory.close();
-        return super.shutdown(context);
+        return super.shutdownInternal(context);
     }
 
     @Override

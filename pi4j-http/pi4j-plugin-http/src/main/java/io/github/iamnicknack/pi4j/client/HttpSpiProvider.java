@@ -44,10 +44,10 @@ public class HttpSpiProvider extends SpiProviderBase {
     }
 
     @Override
-    public SpiProvider shutdown(Context context) throws ShutdownException {
+    public SpiProvider shutdownInternal(Context context) throws ShutdownException {
         logger.info("Shutting down HTTP SPI Provider");
         httpRequests.deleteJson(baseUrl + "/api/config/spi", constructedDevices.keySet(), Void.class);
-        return super.shutdown(context);
+        return super.shutdownInternal(context);
     }
 
     @Override
