@@ -54,6 +54,8 @@ class ServerContext(
 
     /**
      * Create a new server context with the given property map.
+     * @param properties The property map to use. Defaults to the system properties.
+     * @param channelConfigurer A function to configure the gRPC channel. Defaults to [DEFAULT_CHANNEL_CONFIGURER].
      */
     constructor(
         properties: Map<String, String> = System.getProperties()
@@ -107,8 +109,6 @@ class ServerContext(
                 .also {
                     if (!it) logger.warn("Cannot configure gRPC")
                 } -> {
-                logger.info("Configuring to proxy server: ${proxyChannel}")
-
                 builder
                     .add(GrpcDigitalInputProvider(proxyChannel))
                     .add(GrpcDigitalOutputProvider(proxyChannel))
