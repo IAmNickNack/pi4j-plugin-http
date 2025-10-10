@@ -15,9 +15,9 @@ import com.pi4j.plugin.mock.provider.spi.MockSpiProviderImpl
 import io.github.iamnicknack.pi4j.client.HttpDigitalOutputProvider
 import io.github.iamnicknack.pi4j.client.HttpPwmProvider
 import io.github.iamnicknack.pi4j.client.HttpSpiProvider
-import io.github.iamnicknack.pi4j.grpc.client.GrpcDigitalOutputProvider
-import io.github.iamnicknack.pi4j.grpc.client.GrpcPwmProvider
-import io.github.iamnicknack.pi4j.grpc.client.GrpcSpiProvider
+import io.github.iamnicknack.pi4j.grpc.client.provider.gpio.GrpcDigitalOutputProvider
+import io.github.iamnicknack.pi4j.grpc.client.provider.pwm.GrpcPwmProvider
+import io.github.iamnicknack.pi4j.grpc.client.provider.spi.GrpcSpiProvider
 import io.grpc.Grpc
 import io.grpc.InsecureChannelCredentials
 
@@ -38,13 +38,18 @@ class SevenSegment : AutoCloseable {
                     .build()
             }
             "grpc" -> {
-                val channel = Grpc.newChannelBuilder(host, InsecureChannelCredentials.create()).build()
+                val channel = Grpc.newChannelBuilderForAddress(
+                    System.getProperty("pi4j.grpc.host"),
+                    System.getProperty("pi4j.grpc.port", "9090").toInt(),
+                    InsecureChannelCredentials.create()
+                ).build()
                 Pi4J.newContextBuilder()
                     .add(GrpcDigitalOutputProvider(channel))
                     .add(GrpcPwmProvider(channel))
                     .add(GrpcSpiProvider(channel))
                     .build()
             }
+
             else -> Pi4J.newContextBuilder()
                 .add(MockDigitalOutputProviderImpl())
                 .add(MockPwmProviderImpl())
@@ -67,7 +72,12 @@ class SevenSegment : AutoCloseable {
         Pwm.newConfigBuilder(pi4j)
             .id("refresh")
             .name("Refresh PWM")
+            // v3
             .address(2)
+//            .busNumber(0)
+            // v4
+//            .address(0)
+//            .busNumber(2)
             .pwmType(PwmType.HARDWARE)
             .frequency(220)
             .dutyCycle(50)

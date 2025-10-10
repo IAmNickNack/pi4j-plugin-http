@@ -56,9 +56,9 @@ public class Pi4jConfig {
     /**
      * Default pi4j context with providers for supported devices registered
      */
-    @Profile("proxy")
     @Bean(destroyMethod = "shutdown")
     @Primary
+    @Profile("proxy")
     Context pi4jProxy(ContextBuilder builder) {
         return builder
                 .add(new HttpDigitalInputProvider(httpProperties.baseUrl))

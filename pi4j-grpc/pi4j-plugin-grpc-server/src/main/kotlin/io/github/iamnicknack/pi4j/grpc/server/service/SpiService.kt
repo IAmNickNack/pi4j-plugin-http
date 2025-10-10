@@ -1,13 +1,13 @@
-package io.github.iamnicknack.pi4j.grpc.server
+package io.github.iamnicknack.pi4j.grpc.server.service
 
 import com.google.protobuf.kotlin.toByteString
 import com.pi4j.Pi4J
 import com.pi4j.context.Context
 import com.pi4j.io.spi.Spi
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalInputProviderImpl
+import io.github.iamnicknack.pi4j.grpc.gen.device.DataRequest
+import io.github.iamnicknack.pi4j.grpc.gen.device.DataResponse
 import io.github.iamnicknack.pi4j.grpc.gen.device.SpiServiceGrpcKt
-import io.github.iamnicknack.pi4j.grpc.gen.types.DataRequest
-import io.github.iamnicknack.pi4j.grpc.gen.types.DataResponse
 import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.deviceOrThrow
 
 class SpiService(

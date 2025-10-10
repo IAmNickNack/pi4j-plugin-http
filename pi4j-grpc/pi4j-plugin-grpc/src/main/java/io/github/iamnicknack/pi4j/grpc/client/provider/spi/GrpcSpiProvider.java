@@ -1,54 +1,56 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.spi;
 
 import com.pi4j.context.Context;
 import com.pi4j.exception.InitializeException;
 import com.pi4j.exception.ShutdownException;
-import com.pi4j.io.gpio.digital.*;
-import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigPayload;
+import com.pi4j.io.spi.Spi;
+import com.pi4j.io.spi.SpiConfig;
+import com.pi4j.io.spi.SpiProvider;
+import com.pi4j.io.spi.SpiProviderBase;
 import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigServiceGrpc;
+import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigPayload;
 import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceRequest;
 import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceType;
 import io.grpc.Channel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GrpcDigitalInputProvider extends DigitalInputProviderBase {
+public class GrpcSpiProvider extends SpiProviderBase {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     private final Channel channel;
     private final DeviceConfigServiceGrpc.DeviceConfigServiceBlockingStub configStub;
 
-    public GrpcDigitalInputProvider(Channel channel) {
+    public GrpcSpiProvider(Channel channel) {
         this.channel = channel;
         this.configStub = DeviceConfigServiceGrpc.newBlockingStub(channel);
     }
 
     @Override
-    public DigitalInputProvider initialize(Context context) throws InitializeException {
+    public SpiProvider initialize(Context context) throws InitializeException {
         return super.initialize(context);
     }
 
     @Override
-    public DigitalInputProvider shutdown(Context context) throws ShutdownException {
+    public SpiProvider shutdown(Context context) throws ShutdownException {
         return super.shutdown(context);
     }
 
     @Override
-    public DigitalInput create(DigitalInputConfig config) {
-        logger.info("Creating new Digital Input device: {}", config.id());
-        var payload = DeviceConfigPayload.newBuilder()
-                .setDeviceType(DeviceType.DIGITAL_INPUT)
+    public Spi create(SpiConfig config) {
+        logger.info("Creating new SPI device: {}", config.id());
+        var request = DeviceConfigPayload.newBuilder()
+                .setDeviceType(DeviceType.SPI)
                 .putAllConfig(config.properties())
                 .build();
 
-        var response = configStub.createDevice(payload);
-        var responseConfig = DigitalInput.newConfigBuilder(this.context)
+        var response = configStub.createDevice(request);
+        var responseConfig = Spi.newConfigBuilder(this.context)
                 .load(response.getConfigMap())
                 .build();
 
-        var device = new GrpcDigitalInput(channel, this, responseConfig);
+        var device = new GrpcSpi(channel, this, responseConfig);
         context.registry().add(device);
         return device;
     }
@@ -57,11 +59,11 @@ public class GrpcDigitalInputProvider extends DigitalInputProviderBase {
      * Remove a device from the pi4j context.
      * @param device the device to remove.
      */
-    public void removeDevice(DigitalInput device) {
-        logger.info("Removing Digital Input device: {}", device.id());
+    public void removeDevice(Spi device) {
+        logger.info("Removing SPI device: {}", device.id());
         var request = DeviceRequest.newBuilder()
                 .setDeviceId(device.config().id())
-                .setDeviceType(DeviceType.DIGITAL_INPUT)
+                .setDeviceType(DeviceType.SPI)
                 .build();
 
         var result = configStub.removeDevice(request);

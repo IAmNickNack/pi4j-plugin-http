@@ -1,4 +1,4 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.pwm;
 
 import com.pi4j.context.Context;
 import com.pi4j.exception.ShutdownException;
@@ -7,9 +7,9 @@ import com.pi4j.io.pwm.Pwm;
 import com.pi4j.io.pwm.PwmBase;
 import com.pi4j.io.pwm.PwmConfig;
 import io.github.iamnicknack.pi4j.grpc.gen.device.PwmServiceGrpc;
-import io.github.iamnicknack.pi4j.grpc.gen.types.BooleanDeviceRequest;
-import io.github.iamnicknack.pi4j.grpc.gen.types.DeviceIdRequest;
-import io.github.iamnicknack.pi4j.grpc.gen.types.IntegerDeviceRequest;
+import io.github.iamnicknack.pi4j.grpc.gen.device.BooleanDeviceRequest;
+import io.github.iamnicknack.pi4j.grpc.gen.device.DeviceIdRequest;
+import io.github.iamnicknack.pi4j.grpc.gen.device.IntegerDeviceRequest;
 import io.grpc.Channel;
 
 public class GrpcPwm extends PwmBase {

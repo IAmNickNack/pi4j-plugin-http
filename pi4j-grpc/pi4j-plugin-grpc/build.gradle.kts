@@ -1,6 +1,6 @@
 plugins {
     id("buildlogic.repositories")
-    id("buildlogic.grpc.grpc")
+    id("buildlogic.grpc.grpc-java")
     id("buildlogic.test.test-java")
     `java-library`
     `maven-publish`
@@ -8,7 +8,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":pi4j-plugin-grpc-proto"))
     implementation(libs.bundles.pi4j)
 
     testImplementation(project(":pi4j-plugin-grpc-server"))

@@ -1,7 +1,6 @@
 package buildlogic.test
 
 import buildlogic.withVersionCatalog
-import gradle.kotlin.dsl.accessors._592d1df61002f285ea6773698840b81b.testImplementation
 
 plugins {
     id("buildlogic.kotlin-core")

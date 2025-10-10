@@ -7,4 +7,4 @@ JAR_FILE="$(find . -name pi4j-plugin-grpc-server-all.jar)"
   --sun-misc-unsafe-memory-access=allow \
   --enable-native-access=ALL-UNNAMED \
   -Dpi4j.server.port="${SERVER_PORT}" \
-  -jar "${JAR_FILE}"
+  ${JAVA_OPTS} -jar "${JAR_FILE}"

@@ -1,4 +1,4 @@
-package io.github.iamnicknack.pi4j.grpc.server
+package io.github.iamnicknack.pi4j.grpc.server.service
 
 import com.pi4j.Pi4J
 import com.pi4j.context.Context

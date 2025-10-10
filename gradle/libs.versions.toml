@@ -5,7 +5,7 @@ assertj = "3.27.4"
 assertk = "0.28.1"
 jackson = "2.19.2"
 junit = "5.13.4"
-kotlin = "2.2.0"
+kotlin = "2.2.20"
 kotlin-coroutines = "1.8.1"
 logback = "1.5.18"
 okhttp = "5.1.0"
@@ -46,6 +46,7 @@ pi4j-core = { module = "com.pi4j:pi4j-core", version.ref = "pi4j" }
 pi4j-plugin-mock = { module = "com.pi4j:pi4j-plugin-mock", version.ref = "pi4j" }
 pi4j-plugin-linuxfs = { module = "com.pi4j:pi4j-plugin-linuxfs", version.ref = "pi4j" }
 pi4j-plugin-gpiod = { module = "com.pi4j:pi4j-plugin-gpiod", version.ref = "pi4j" }
+pi4j-plugin-ffm = { module = "com.pi4j:pi4j-plugin-ffm", version.ref = "pi4j" }
 pi4j-raspberrypi = { module = "com.pi4j:pi4j-plugin-raspberrypi", version.ref = "pi4j" }
 wiremock-core = { module = "org.wiremock:wiremock-standalone", version.ref = "wiremock" }
 wiremock-jetty = { module = "org.wiremock:wiremock-jetty12", version.ref = "wiremock" }

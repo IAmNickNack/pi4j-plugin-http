@@ -1,4 +1,4 @@
-package io.github.iamnicknack.pi4j.grpc.server
+package io.github.iamnicknack.pi4j.grpc.server.service
 
 import com.pi4j.Pi4J
 import com.pi4j.context.Context
@@ -6,11 +6,11 @@ import com.pi4j.event.ShutdownListener
 import com.pi4j.io.gpio.digital.DigitalOutput
 import com.pi4j.io.gpio.digital.DigitalStateChangeListener
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalInputProviderImpl
+import io.github.iamnicknack.pi4j.grpc.gen.device.DeviceIdRequest
 import io.github.iamnicknack.pi4j.grpc.gen.device.DigitalOutputServiceGrpcKt
 import io.github.iamnicknack.pi4j.grpc.gen.device.DigitalStateResponse
 import io.github.iamnicknack.pi4j.grpc.gen.device.GetDigitalStateRequest
 import io.github.iamnicknack.pi4j.grpc.gen.device.SetDigitalStateRequest
-import io.github.iamnicknack.pi4j.grpc.gen.types.DeviceIdRequest
 import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.asDeviceState
 import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.asDigitalState
 import io.github.iamnicknack.pi4j.grpc.server.Pi4jGrpcExt.deviceOrThrow
@@ -47,7 +47,7 @@ class DigitalOutputService(
         val device = pi4j.deviceOrThrow(request.deviceId, DigitalOutput::class.java)
         val listener = DigitalStateChangeListener { event ->
             if (logger.isDebugEnabled) {
-                logger.debug("Digital output state changed: {}", event.state())
+                logger.debug("Digital output state changed: {} ({}) = {}", event.source().name, event.source().address, event.state())
             }
 
             val state = event.state().asDeviceState()

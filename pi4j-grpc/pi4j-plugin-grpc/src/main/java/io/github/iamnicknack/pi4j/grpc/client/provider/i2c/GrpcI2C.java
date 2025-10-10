@@ -1,15 +1,11 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.i2c;
 
 import com.google.protobuf.ByteString;
 import com.pi4j.context.Context;
 import com.pi4j.exception.InitializeException;
 import com.pi4j.exception.ShutdownException;
 import com.pi4j.io.i2c.*;
-import io.github.iamnicknack.pi4j.grpc.gen.device.I2CServiceGrpc;
-import io.github.iamnicknack.pi4j.grpc.gen.device.ReadRegisterRequest;
-import io.github.iamnicknack.pi4j.grpc.gen.device.WriteRegisterRequest;
-import io.github.iamnicknack.pi4j.grpc.gen.types.DataRequest;
-import io.github.iamnicknack.pi4j.grpc.gen.types.IntegerDeviceRequest;
+import io.github.iamnicknack.pi4j.grpc.gen.device.*;
 import io.grpc.Channel;
 
 import java.util.concurrent.Callable;

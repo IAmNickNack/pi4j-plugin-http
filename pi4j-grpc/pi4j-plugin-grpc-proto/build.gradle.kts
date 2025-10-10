@@ -1,12 +1,18 @@
 plugins {
     id("buildlogic.repositories")
     id("buildlogic.grpc.grpc-kotlin")
-//    id("buildlogic.kotlin-core")
-//    id("buildlogic.test.test-kotlin")
+    id("buildlogic.java-core")
     `java-library`
+    `maven-publish`
 }
 
-dependencies {
-//    implementation(libs.bundles.pi4j)
-//    testImplementation(libs.grpc.testing)
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "io.github.iamnicknack.pi4j"
+            artifactId = "pi4j-plugin-grpc-proto"
+            version = "0.0.1"
+            from(components["java"])
+        }
+    }
 }

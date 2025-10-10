@@ -1,9 +1,5 @@
 plugins {
-    java
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+    id("buildlogic.repositories")
+    id("buildlogic.java-core")
+    id("buildlogic.kotlin-core")
 }

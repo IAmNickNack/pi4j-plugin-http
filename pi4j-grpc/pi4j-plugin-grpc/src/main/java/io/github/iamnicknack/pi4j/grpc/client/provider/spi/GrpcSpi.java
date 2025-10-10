@@ -1,4 +1,4 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.spi;
 
 import com.google.protobuf.ByteString;
 import com.pi4j.context.Context;
@@ -6,8 +6,8 @@ import com.pi4j.exception.ShutdownException;
 import com.pi4j.io.spi.Spi;
 import com.pi4j.io.spi.SpiBase;
 import com.pi4j.io.spi.SpiConfig;
+import io.github.iamnicknack.pi4j.grpc.gen.device.DataRequest;
 import io.github.iamnicknack.pi4j.grpc.gen.device.SpiServiceGrpc;
-import io.github.iamnicknack.pi4j.grpc.gen.types.DataRequest;
 import io.grpc.Channel;
 
 public class GrpcSpi extends SpiBase {

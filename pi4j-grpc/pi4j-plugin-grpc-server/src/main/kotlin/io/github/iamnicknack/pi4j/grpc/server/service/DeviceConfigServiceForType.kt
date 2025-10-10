@@ -1,4 +1,4 @@
-package io.github.iamnicknack.pi4j.grpc.server
+package io.github.iamnicknack.pi4j.grpc.server.service
 
 import com.pi4j.Pi4J
 import com.pi4j.context.Context
@@ -39,6 +39,7 @@ internal class DeviceConfigServiceForType<
 
         val device = deviceResult
             .getOrElse {
+                logger.error("Failed to create device", it)
                 throw Status.INTERNAL
                     .withDescription(it.message ?: "Unknown error occurred")
                     .asException()
@@ -62,6 +63,7 @@ internal class DeviceConfigServiceForType<
         val device = pi4j.deviceOrThrow(request.deviceId, deviceType)
 
         if (device.type() != request.deviceType.asIOType()) {
+            logger.warn("Device is not of correct type: ${device.type()} != ${request.deviceType.asIOType()}")
             throw Status.ABORTED
                 .withDescription("Device is not of correct type: ${device.type()} != ${request.deviceType.asIOType()}")
                 .asException()

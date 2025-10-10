@@ -1,12 +1,12 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.pwm;
 
 import com.pi4j.context.Context;
 import com.pi4j.exception.InitializeException;
 import com.pi4j.exception.ShutdownException;
-import com.pi4j.io.i2c.I2C;
-import com.pi4j.io.i2c.I2CConfig;
-import com.pi4j.io.i2c.I2CProvider;
-import com.pi4j.io.i2c.I2CProviderBase;
+import com.pi4j.io.pwm.Pwm;
+import com.pi4j.io.pwm.PwmConfig;
+import com.pi4j.io.pwm.PwmProvider;
+import com.pi4j.io.pwm.PwmProviderBase;
 import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigServiceGrpc;
 import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceConfigPayload;
 import io.github.iamnicknack.pi4j.grpc.gen.config.DeviceRequest;
@@ -15,43 +15,42 @@ import io.grpc.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GrpcI2CProvider extends I2CProviderBase {
+public class GrpcPwmProvider extends PwmProviderBase {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     private final Channel channel;
     private final DeviceConfigServiceGrpc.DeviceConfigServiceBlockingStub configStub;
 
-    public GrpcI2CProvider(Channel channel) {
+    public GrpcPwmProvider(Channel channel) {
         this.channel = channel;
         this.configStub = DeviceConfigServiceGrpc.newBlockingStub(channel);
     }
 
     @Override
-    public I2CProvider initialize(Context context) throws InitializeException {
+    public PwmProvider initialize(Context context) throws InitializeException {
         return super.initialize(context);
     }
 
     @Override
-    public I2CProvider shutdown(Context context) throws ShutdownException {
+    public PwmProvider shutdown(Context context) throws ShutdownException {
         return super.shutdown(context);
     }
 
     @Override
-    public I2C create(I2CConfig config) {
-        logger.info("Creating new I2C device: {}", config.id());
-
-        var payload = DeviceConfigPayload.newBuilder()
-                .setDeviceType(DeviceType.I2C)
+    public Pwm create(PwmConfig config) {
+        logger.info("Creating new PWM device: {}", config.id());
+        var request = DeviceConfigPayload.newBuilder()
+                .setDeviceType(DeviceType.PWM)
                 .putAllConfig(config.properties())
                 .build();
 
-        var response = configStub.createDevice(payload);
-        var responseConfig = I2C.newConfigBuilder(this.context)
+        var response = configStub.createDevice(request);
+        var responseConfig = Pwm.newConfigBuilder(this.context)
                 .load(response.getConfigMap())
                 .build();
 
-        var device = new GrpcI2C(channel, this, responseConfig);
+        var device = new GrpcPwm(channel, this, responseConfig);
         context.registry().add(device);
         return device;
     }
@@ -60,14 +59,13 @@ public class GrpcI2CProvider extends I2CProviderBase {
      * Remove a device from the pi4j context.
      * @param device the device to remove.
      */
-    public void removeDevice(I2C device) {
-        logger.info("Removing I2C device: {}", device.config().id());
+    public void removeDevice(Pwm device) {
+        logger.info("Removing SPI device: {}", device.id());
         var request = DeviceRequest.newBuilder()
                 .setDeviceId(device.config().id())
-                .setDeviceType(DeviceType.I2C)
+                .setDeviceType(DeviceType.PWM)
                 .build();
 
         var result = configStub.removeDevice(request);
         assert result != null;
-    }
-}
+    }}

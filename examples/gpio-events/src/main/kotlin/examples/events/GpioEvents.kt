@@ -6,7 +6,7 @@ import com.pi4j.io.gpio.digital.DigitalOutput
 import com.pi4j.io.gpio.digital.DigitalState
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl
 import io.github.iamnicknack.pi4j.client.HttpDigitalOutputProvider
-import io.github.iamnicknack.pi4j.grpc.client.GrpcDigitalOutputProvider
+import io.github.iamnicknack.pi4j.grpc.client.provider.gpio.GrpcDigitalOutputProvider
 import io.grpc.Grpc
 import io.grpc.InsecureChannelCredentials
 import org.slf4j.LoggerFactory
@@ -64,7 +64,7 @@ fun main() {
             count.incrementAndGet()
         })
 
-        Thread.sleep(500);
+        Thread.sleep(500)
 
         gpioEvents.output.high()
         Thread.sleep(1000)

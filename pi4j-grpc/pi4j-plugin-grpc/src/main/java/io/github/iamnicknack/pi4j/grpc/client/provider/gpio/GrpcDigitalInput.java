@@ -1,12 +1,14 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.gpio;
 
 import com.pi4j.context.Context;
 import com.pi4j.exception.InitializeException;
 import com.pi4j.exception.ShutdownException;
 import com.pi4j.io.gpio.digital.*;
-import io.github.iamnicknack.pi4j.grpc.gen.device.*;
+import io.github.iamnicknack.pi4j.grpc.gen.device.DeviceIdRequest;
+import io.github.iamnicknack.pi4j.grpc.gen.device.DeviceState;
+import io.github.iamnicknack.pi4j.grpc.gen.device.DigitalInputServiceGrpc;
 import io.github.iamnicknack.pi4j.grpc.gen.device.DigitalInputServiceGrpc.DigitalInputServiceBlockingStub;
-import io.github.iamnicknack.pi4j.grpc.gen.types.DeviceIdRequest;
+import io.github.iamnicknack.pi4j.grpc.gen.device.GetDigitalStateRequest;
 import io.grpc.Channel;
 import org.slf4j.Logger;
 

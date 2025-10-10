@@ -1,4 +1,4 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.gpio;
 
 import com.pi4j.io.gpio.digital.DigitalState;
 import io.github.iamnicknack.pi4j.grpc.gen.device.DigitalStateResponse;
@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 /**
  * Reusable stream observer for dispatching digital state updates
  */
-public class DigitalStateResponseStreamObserver implements StreamObserver<DigitalStateResponse> {
+class DigitalStateResponseStreamObserver implements StreamObserver<DigitalStateResponse> {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Consumer<DigitalState> dispatcher;

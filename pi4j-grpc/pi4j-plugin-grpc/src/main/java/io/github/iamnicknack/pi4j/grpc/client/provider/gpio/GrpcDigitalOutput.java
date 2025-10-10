@@ -1,4 +1,4 @@
-package io.github.iamnicknack.pi4j.grpc.client;
+package io.github.iamnicknack.pi4j.grpc.client.provider.gpio;
 
 import com.pi4j.context.Context;
 import com.pi4j.exception.InitializeException;
@@ -6,7 +6,6 @@ import com.pi4j.exception.ShutdownException;
 import com.pi4j.io.exception.IOException;
 import com.pi4j.io.gpio.digital.*;
 import io.github.iamnicknack.pi4j.grpc.gen.device.*;
-import io.github.iamnicknack.pi4j.grpc.gen.types.DeviceIdRequest;
 import io.grpc.Channel;
 import org.slf4j.Logger;
 

@@ -9,8 +9,8 @@ import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl
 import com.pi4j.plugin.mock.provider.i2c.MockI2CProviderImpl
 import io.github.iamnicknack.pi4j.client.HttpDigitalOutputProvider
 import io.github.iamnicknack.pi4j.client.HttpI2CProvider
-import io.github.iamnicknack.pi4j.grpc.client.GrpcDigitalOutputProvider
-import io.github.iamnicknack.pi4j.grpc.client.GrpcI2CProvider
+import io.github.iamnicknack.pi4j.grpc.client.provider.gpio.GrpcDigitalOutputProvider
+import io.github.iamnicknack.pi4j.grpc.client.provider.i2c.GrpcI2CProvider
 import io.grpc.Grpc
 import io.grpc.InsecureChannelCredentials
 
