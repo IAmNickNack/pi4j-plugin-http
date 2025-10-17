@@ -5,6 +5,9 @@ import com.pi4j.context.Context
 import com.pi4j.io.gpio.digital.DigitalOutput
 import com.pi4j.io.gpio.digital.DigitalState
 import com.pi4j.io.i2c.I2C
+import com.pi4j.io.i2c.I2CImplementation
+import com.pi4j.plugin.ffm.providers.gpio.DigitalOutputFFMProviderImpl
+import com.pi4j.plugin.ffm.providers.i2c.I2CFFMProviderImpl
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl
 import com.pi4j.plugin.mock.provider.i2c.MockI2CProviderImpl
 import io.github.iamnicknack.pi4j.client.HttpDigitalOutputProvider
@@ -36,6 +39,12 @@ class BasicI2C : AutoCloseable {
                     .add(GrpcI2CProvider(channel))
                     .build()
             }
+            "ffm" -> {
+                Pi4J.newContextBuilder()
+                    .add(DigitalOutputFFMProviderImpl())
+                    .add(I2CFFMProviderImpl())
+                    .build()
+            }
             else -> Pi4J.newContextBuilder()
                 .add(MockDigitalOutputProviderImpl())
                 .add(MockI2CProviderImpl())
@@ -48,6 +57,9 @@ class BasicI2C : AutoCloseable {
             .id("mcp23008")
             .bus(1)
             .device(0x20)
+            // Use SMBUS implementation (default for Pi4J).
+            // DIRECT is supported by the Pi, but appears to have issues
+            .i2cImplementation(I2CImplementation.SMBUS)
             .build()
     )
 

@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":pi4j-plugin-grpc"))
     implementation(libs.pi4j.core)
     implementation(libs.pi4j.plugin.mock)
+    implementation(libs.pi4j.plugin.ffm)
 }
 
 application {

@@ -9,6 +9,9 @@ import com.pi4j.io.pwm.PwmType
 import com.pi4j.io.spi.Spi
 import com.pi4j.io.spi.SpiBus
 import com.pi4j.io.spi.SpiMode
+import com.pi4j.plugin.ffm.providers.gpio.DigitalOutputFFMProviderImpl
+import com.pi4j.plugin.ffm.providers.pwm.PwmFFMProviderImpl
+import com.pi4j.plugin.ffm.providers.spi.SpiFFMProviderImpl
 import com.pi4j.plugin.mock.provider.gpio.digital.MockDigitalOutputProviderImpl
 import com.pi4j.plugin.mock.provider.pwm.MockPwmProviderImpl
 import com.pi4j.plugin.mock.provider.spi.MockSpiProviderImpl
@@ -47,6 +50,13 @@ class SevenSegment : AutoCloseable {
                     .add(GrpcDigitalOutputProvider(channel))
                     .add(GrpcPwmProvider(channel))
                     .add(GrpcSpiProvider(channel))
+                    .build()
+            }
+            "ffm" -> {
+                Pi4J.newContextBuilder()
+                    .add(DigitalOutputFFMProviderImpl())
+                    .add(SpiFFMProviderImpl())
+                    .add(PwmFFMProviderImpl())
                     .build()
             }
 
