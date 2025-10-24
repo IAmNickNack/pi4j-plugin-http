@@ -1,3 +1,5 @@
+This repository is now deprecated and will be archived in favour of [pi4j-plugin-grpc](https://github.com/IAmNickNack/pi4j-plugin-grpc)
+
 # PI4J Network Plugins
 
 These plugins intend to provide remote development support for PI4J in the absence of 
